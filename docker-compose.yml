@@ -1,0 +1,32 @@
+services:
+  postgres-dwh:
+    build: provisioning
+    container_name: &postgres-host postgres-dwh
+    ports:
+      - 5432:5432
+    environment:
+      &postgres-common-env
+      POSTGRES_PASSWORD: admin
+    networks: &common-network
+      - local_network
+
+  generate-data-sources:
+    build: generate_data_sources
+    container_name: generate-data-sources
+    environment:
+      <<: *postgres-common-env
+      POSTGRES_HOST: *postgres-host
+      POSTGRES_DATABASE: postgres
+      POSTGRES_USER: postgres
+      NUMBER_CUSTOMERS: 1000
+      NUMBER_COMPANIES: 50
+      NUMBER_PRODUCTS: 300
+      NUMBER_COMPANY_CATALOG_ITEMS: 2500
+      NUMBER_ORDERS: 5000
+      NUMBER_LOG_ENTRIES: 500
+    networks: *common-network
+    entrypoint: [sh, -c, "python3 b2b_database.py && python3 weblog_data.py"]
+
+networks:
+  local_network:
+      external: true
