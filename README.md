@@ -1,3 +1,19 @@
+# Goal
+This project simulates the ETL pipelines of an eCommerce commpany.
+
+It first generates random source data, transforms it according to some business rules, and then loads it into a data warehouse.
+
+The data warehouse has 2 data sources:
+- B2B platform database (Companies, Customers, Products, Orders)
+- Log data from the webserver (in the combined log format)
+
+## Technologies used
+ - **Airflow** -> to organize, run, schedule, and monitor the ETL pipelines
+ - **Python** -> to generate random source data and to write the Airflow DAGs
+ - **SQL** -> for the Data Warehouse definition (DDL), the data transformations & loading and some reports based on the DWH
+ - **Jinja** -> to template the SQL used in the ETL
+ - **Docker** -> to containerize all the scripts and services needed
+
 # Prerequisites
  - Docker installed and running.
  - 10 GB of free disk space for Docker to use. Mainly because of Airflow.
